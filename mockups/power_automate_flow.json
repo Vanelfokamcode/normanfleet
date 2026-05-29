@@ -1,0 +1,74 @@
+{
+  "name": "NormanFleet_MaintenanceAlert",
+  "description": "Flow déclenché quotidiennement à 06h00 — détecte les véhicules dont km_since_last_maintenance > 15000 et envoie une alerte email au technicien responsable",
+  "trigger": {
+    "type": "Recurrence",
+    "schedule": {
+      "frequency": "Day",
+      "interval": 1,
+      "startTime": "06:00:00"
+    }
+  },
+  "actions": [
+    {
+      "step": 1,
+      "name": "Get_Vehicles_Near_Threshold",
+      "type": "SharePoint_GetItems",
+      "description": "Lit la table mart_maintenance_kpis depuis SharePoint List (connectée au pipeline dbt)",
+      "parameters": {
+        "site": "https://normanfleet.sharepoint.com",
+        "list": "mart_maintenance_kpis",
+        "filter": "km_since_last_maintenance gt 12000"
+      }
+    },
+    {
+      "step": 2,
+      "name": "Condition_AlertThreshold",
+      "type": "Condition",
+      "description": "Vérifie si au moins un véhicule dépasse le seuil critique de 15000 km",
+      "expression": {
+        "field": "km_since_last_maintenance",
+        "operator": "greater_than",
+        "value": 15000
+      },
+      "true_branch": [
+        {
+          "step": "3a",
+          "name": "Send_Alert_Email",
+          "type": "Office365_SendEmail",
+          "description": "Envoie un email HTML au technicien responsable avec le tableau des véhicules en alerte",
+          "parameters": {
+            "to": "technicien.responsable@normanfleet.fr",
+            "subject": "⚠️ NormanFleet — {{nb_vehicules}} véhicule(s) en alerte maintenance",
+            "body_html": "<h2>Alerte Maintenance NormanFleet</h2><p>Les véhicules suivants dépassent le seuil de 15 000 km sans intervention :</p><table>{{tableau_vehicules_alerte}}</table>",
+            "importance": "High"
+          }
+        },
+        {
+          "step": "3b",
+          "name": "Log_Alert_SharePoint",
+          "type": "SharePoint_CreateItem",
+          "description": "Crée une entrée dans le journal des alertes pour traçabilité",
+          "parameters": {
+            "site": "https://normanfleet.sharepoint.com",
+            "list": "AlertLog",
+            "fields": {
+              "date_alerte": "@utcNow()",
+              "nb_vehicules_alerte": "@length(body('Get_Vehicles_Near_Threshold'))",
+              "statut": "ENVOYEE"
+            }
+          }
+        }
+      ],
+      "false_branch": [
+        {
+          "step": "3c",
+          "name": "No_Action",
+          "type": "Terminate",
+          "description": "Aucun véhicule en alerte — flow terminé sans action",
+          "status": "Succeeded"
+        }
+      ]
+    }
+  ]
+}

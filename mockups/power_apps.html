@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>NormanFleet — Saisie Incident</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #f3f2f1;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .phone {
+    width: 390px;
+    min-height: 100vh;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* STATUS BAR */
+  .status-bar {
+    background: #0078d4;
+    color: white;
+    padding: 10px 16px 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* TOP BAR */
+  .top-bar {
+    background: #0078d4;
+    color: white;
+    padding: 12px 16px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .top-bar-icon {
+    width: 32px;
+    height: 32px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+
+  .top-bar-title {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+  }
+
+  .top-bar-sub {
+    font-size: 11px;
+    opacity: 0.85;
+  }
+
+  /* FORM */
+  .form-body {
+    flex: 1;
+    padding: 20px 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .field-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #323130;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .field-label .required {
+    color: #a4262c;
+    font-size: 14px;
+  }
+
+  .field-input, .field-select, .field-textarea {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid #8a8886;
+    border-radius: 2px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 14px;
+    color: #323130;
+    background: #ffffff;
+    outline: none;
+    transition: border-color 0.1s;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .field-input:focus, .field-select:focus, .field-textarea:focus {
+    border-color: #0078d4;
+    border-width: 2px;
+  }
+
+  .field-select-wrap {
+    position: relative;
+  }
+
+  .field-select-wrap::after {
+    content: '▾';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #605e5c;
+    pointer-events: none;
+    font-size: 12px;
+  }
+
+  .field-textarea {
+    resize: none;
+    height: 80px;
+    line-height: 1.5;
+  }
+
+  .field-hint {
+    font-size: 11px;
+    color: #605e5c;
+    margin-top: 2px;
+  }
+
+  /* KM INPUT with unit */
+  .km-wrap {
+    display: flex;
+    align-items: center;
+    border: 1px solid #8a8886;
+    border-radius: 2px;
+    overflow: hidden;
+    background: white;
+  }
+
+  .km-wrap:focus-within {
+    border-color: #0078d4;
+    border-width: 2px;
+  }
+
+  .km-input {
+    flex: 1;
+    padding: 9px 12px;
+    border: none;
+    outline: none;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 14px;
+    color: #323130;
+  }
+
+  .km-unit {
+    padding: 9px 12px;
+    background: #f3f2f1;
+    color: #605e5c;
+    font-size: 13px;
+    font-weight: 600;
+    border-left: 1px solid #e1dfdd;
+  }
+
+  /* SEVERITY */
+  .severity-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .severity-btn {
+    flex: 1;
+    padding: 10px 6px;
+    border: 1.5px solid #e1dfdd;
+    border-radius: 2px;
+    background: white;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #605e5c;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+  }
+
+  .severity-btn.low.active    { background: #dff6dd; border-color: #107c10; color: #107c10; }
+  .severity-btn.medium.active { background: #fff4ce; border-color: #d29200; color: #8a6400; }
+  .severity-btn.high.active   { background: #fde7e9; border-color: #a4262c; color: #a4262c; }
+
+  /* PHOTO ZONE */
+  .photo-zone {
+    border: 1.5px dashed #c8c6c4;
+    border-radius: 2px;
+    padding: 20px;
+    text-align: center;
+    color: #605e5c;
+    cursor: pointer;
+    background: #faf9f8;
+    transition: background 0.15s;
+  }
+
+  .photo-zone:hover { background: #f3f2f1; }
+
+  .photo-icon { font-size: 28px; margin-bottom: 6px; }
+  .photo-text { font-size: 13px; font-weight: 600; color: #323130; }
+  .photo-sub  { font-size: 11px; color: #a19f9d; margin-top: 2px; }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: #e1dfdd;
+    margin: 4px 0;
+  }
+
+  /* SUBMIT */
+  .footer-bar {
+    padding: 12px 16px 24px;
+    background: white;
+    border-top: 1px solid #e1dfdd;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .btn-submit {
+    width: 100%;
+    padding: 12px;
+    background: #0078d4;
+    color: white;
+    border: none;
+    border-radius: 2px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+    letter-spacing: 0.2px;
+  }
+
+  .btn-submit:hover   { background: #106ebe; }
+  .btn-submit:active  { background: #005a9e; }
+
+  .btn-cancel {
+    width: 100%;
+    padding: 10px;
+    background: white;
+    color: #0078d4;
+    border: 1px solid #0078d4;
+    border-radius: 2px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #107c10;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 100;
+  }
+
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* SECTION HEADER */
+  .section-header {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #0078d4;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #0078d4;
+    margin-bottom: 4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="phone">
+
+  <div class="status-bar">
+    <span>9:41</span>
+    <span>NormanFleet</span>
+    <span>●●●●</span>
+  </div>
+
+  <div class="top-bar">
+    <div class="top-bar-icon">🚛</div>
+    <div>
+      <div class="top-bar-title">Saisie Incident</div>
+      <div class="top-bar-sub">NormanFleet · Terrain</div>
+    </div>
+  </div>
+
+  <div class="form-body">
+
+    <p class="section-header">Identification véhicule</p>
+
+    <div class="field-group">
+      <label class="field-label">Immatriculation <span class="required">*</span></label>
+      <div class="field-select-wrap">
+        <select class="field-select" id="immat">
+          <option value="">-- Sélectionner --</option>
+          <option>NF-001-PL · Volvo FH 500</option>
+          <option>NF-002-PL · Renault T 480</option>
+          <option>NF-003-PL · Mercedes Actros 5</option>
+          <option>NF-004-PL · Volvo FH 460</option>
+          <option>NF-005-PL · MAN TGX 18.510</option>
+          <option>NF-006-PL · DAF XF 480</option>
+          <option>NF-007-PL · Renault T 460</option>
+          <option>NF-008-PL · Volvo FH Electric</option>
+          <option>NF-009-PL · Renault E-Tech T</option>
+          <option>NF-010-PL · Volvo FH 500</option>
+          <option>NF-011-PL · Mercedes Actros 5</option>
+          <option>NF-012-PL · MAN TGX 18.510</option>
+          <option>NF-013-PL · Renault T 480</option>
+          <option>NF-014-PL · DAF XF 480</option>
+          <option>NF-015-PL · Volvo FH 460</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Kilométrage actuel <span class="required">*</span></label>
+      <div class="km-wrap">
+        <input type="number" class="km-input" id="km" placeholder="ex: 187450">
+        <span class="km-unit">km</span>
+      </div>
+      <span class="field-hint">Kilométrage affiché au compteur au moment de l'incident</span>
+    </div>
+
+    <div class="divider"></div>
+    <p class="section-header">Nature de l'incident</p>
+
+    <div class="field-group">
+      <label class="field-label">Type d'incident <span class="required">*</span></label>
+      <div class="field-select-wrap">
+        <select class="field-select" id="type">
+          <option value="">-- Sélectionner --</option>
+          <option>Panne moteur</option>
+          <option>Crevaison / Pneu</option>
+          <option>Défaillance électrique</option>
+          <option>Boîte de vitesses</option>
+          <option>Système de freinage</option>
+          <option>Fuite hydraulique</option>
+          <option>Climatisation / Cabine</option>
+          <option>Autre</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Sévérité</label>
+      <div class="severity-row">
+        <button class="severity-btn low"    onclick="setSeverity(this, 'low')">🟢 Faible</button>
+        <button class="severity-btn medium" onclick="setSeverity(this, 'medium')">🟡 Moyen</button>
+        <button class="severity-btn high"   onclick="setSeverity(this, 'high')">🔴 Critique</button>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Description <span class="required">*</span></label>
+      <textarea class="field-textarea" id="desc" placeholder="Décrivez le problème observé..."></textarea>
+    </div>
+
+    <div class="divider"></div>
+    <p class="section-header">Documentation</p>
+
+    <div class="photo-zone" onclick="fakePhoto()">
+      <div class="photo-icon" id="photo-icon">📷</div>
+      <div class="photo-text" id="photo-text">Ajouter une photo</div>
+      <div class="photo-sub" id="photo-sub">Optionnel · JPG, PNG max 10 Mo</div>
+    </div>
+
+  </div>
+
+  <div class="footer-bar">
+    <button class="btn-submit" onclick="submitForm()">Soumettre l'incident</button>
+    <button class="btn-cancel">Annuler</button>
+  </div>
+
+</div>
+
+<div class="toast" id="toast">✓ Incident enregistré — technicien notifié</div>
+
+<script>
+  function setSeverity(btn, level) {
+    document.querySelectorAll('.severity-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function fakePhoto() {
+    document.getElementById('photo-icon').textContent = '✅';
+    document.getElementById('photo-text').textContent = 'Photo ajoutée';
+    document.getElementById('photo-sub').textContent  = 'incident_photo.jpg · 2.4 Mo';
+  }
+
+  function submitForm() {
+    const immat = document.getElementById('immat').value;
+    const km    = document.getElementById('km').value;
+    const type  = document.getElementById('type').value;
+    const desc  = document.getElementById('desc').value;
+
+    if (!immat || !km || !type || !desc) {
+      alert('Veuillez remplir tous les champs obligatoires (*)');
+      return;
+    }
+
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+
+    // Reset
+    setTimeout(() => {
+      document.getElementById('immat').value = '';
+      document.getElementById('km').value    = '';
+      document.getElementById('type').value  = '';
+      document.getElementById('desc').value  = '';
+      document.querySelectorAll('.severity-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('photo-icon').textContent = '📷';
+      document.getElementById('photo-text').textContent = 'Ajouter une photo';
+      document.getElementById('photo-sub').textContent  = 'Optionnel · JPG, PNG max 10 Mo';
+    }, 3200);
+  }
+</script>
+
+</body>
+</html>

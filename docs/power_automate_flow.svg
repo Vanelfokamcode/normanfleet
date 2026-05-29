@@ -1,0 +1,75 @@
+<svg viewBox="0 0 720 580" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, system-ui, sans-serif">
+
+  <!-- Background -->
+  <rect width="720" height="580" fill="#f8f9fa" rx="8"/>
+  <text x="360" y="32" text-anchor="middle" font-size="13" font-weight="700" fill="#323130" letter-spacing="0.5">NormanFleet — Flow Power Automate · Alerte Maintenance</text>
+
+  <!-- TRIGGER -->
+  <rect x="260" y="50" width="200" height="64" rx="6" fill="#0078d4" stroke="#005a9e" stroke-width="1.5"/>
+  <text x="360" y="76" text-anchor="middle" font-size="11" fill="white" font-weight="700" letter-spacing="1">TRIGGER</text>
+  <text x="360" y="93" text-anchor="middle" font-size="12" fill="white" font-weight="600">Récurrence quotidienne</text>
+  <text x="360" y="108" text-anchor="middle" font-size="11" fill="rgba(255,255,255,0.8)">Tous les jours à 06:00</text>
+
+  <!-- Arrow 1 -->
+  <line x1="360" y1="114" x2="360" y2="148" stroke="#8a8886" stroke-width="2" stroke-dasharray="4,3"/>
+  <polygon points="354,144 360,154 366,144" fill="#8a8886"/>
+
+  <!-- STEP 1 -->
+  <rect x="230" y="154" width="260" height="64" rx="6" fill="#fff" stroke="#0078d4" stroke-width="1.5"/>
+  <text x="360" y="176" text-anchor="middle" font-size="10" fill="#0078d4" font-weight="700" letter-spacing="1">ÉTAPE 1 · SharePoint</text>
+  <text x="360" y="193" text-anchor="middle" font-size="12" fill="#323130" font-weight="600">Get Vehicles Near Threshold</text>
+  <text x="360" y="210" text-anchor="middle" font-size="10" fill="#605e5c">Filtre : km_since_last_maintenance &gt; 12000</text>
+
+  <!-- Arrow 2 -->
+  <line x1="360" y1="218" x2="360" y2="252" stroke="#8a8886" stroke-width="2" stroke-dasharray="4,3"/>
+  <polygon points="354,248 360,258 366,248" fill="#8a8886"/>
+
+  <!-- CONDITION -->
+  <polygon points="360,258 490,298 360,338 230,298" fill="#fff4ce" stroke="#d29200" stroke-width="1.5"/>
+  <text x="360" y="292" text-anchor="middle" font-size="11" fill="#8a6400" font-weight="700">CONDITION</text>
+  <text x="360" y="308" text-anchor="middle" font-size="10" fill="#8a6400">km_since_maintenance &gt; 15000 ?</text>
+
+  <!-- TRUE branch arrow -->
+  <line x1="230" y1="298" x2="130" y2="298" stroke="#107c10" stroke-width="2"/>
+  <line x1="130" y1="298" x2="130" y2="368" stroke="#107c10" stroke-width="2"/>
+  <polygon points="124,364 130,374 136,364" fill="#107c10"/>
+  <text x="175" y="288" text-anchor="middle" font-size="11" fill="#107c10" font-weight="700">OUI</text>
+
+  <!-- FALSE branch arrow -->
+  <line x1="490" y1="298" x2="590" y2="298" stroke="#a4262c" stroke-width="2"/>
+  <line x1="590" y1="298" x2="590" y2="368" stroke="#a4262c" stroke-width="2"/>
+  <polygon points="584,364 590,374 596,364" fill="#a4262c"/>
+  <text x="543" y="288" text-anchor="middle" font-size="11" fill="#a4262c" font-weight="700">NON</text>
+
+  <!-- TRUE: Send Email -->
+  <rect x="50" y="374" width="160" height="72" rx="6" fill="#dff6dd" stroke="#107c10" stroke-width="1.5"/>
+  <text x="130" y="396" text-anchor="middle" font-size="10" fill="#107c10" font-weight="700" letter-spacing="0.5">ÉTAPE 3a · Email</text>
+  <text x="130" y="413" text-anchor="middle" font-size="11" fill="#323130" font-weight="600">Send Alert Email</text>
+  <text x="130" y="430" text-anchor="middle" font-size="9.5" fill="#605e5c">Email HTML technicien</text>
+  <text x="130" y="443" text-anchor="middle" font-size="9.5" fill="#605e5c">Importance: High ⚠️</text>
+
+  <!-- Arrow to log -->
+  <line x1="130" y1="446" x2="130" y2="476" stroke="#107c10" stroke-width="2" stroke-dasharray="4,3"/>
+  <polygon points="124,472 130,482 136,472" fill="#107c10"/>
+
+  <!-- TRUE: Log -->
+  <rect x="50" y="482" width="160" height="60" rx="6" fill="#dff6dd" stroke="#107c10" stroke-width="1.5"/>
+  <text x="130" y="504" text-anchor="middle" font-size="10" fill="#107c10" font-weight="700" letter-spacing="0.5">ÉTAPE 3b · SharePoint</text>
+  <text x="130" y="521" text-anchor="middle" font-size="11" fill="#323130" font-weight="600">Log Alert Entry</text>
+  <text x="130" y="536" text-anchor="middle" font-size="9.5" fill="#605e5c">Journal traçabilité</text>
+
+  <!-- FALSE: No action -->
+  <rect x="510" y="374" width="160" height="60" rx="6" fill="#fde7e9" stroke="#a4262c" stroke-width="1.5"/>
+  <text x="590" y="396" text-anchor="middle" font-size="10" fill="#a4262c" font-weight="700" letter-spacing="0.5">ÉTAPE 3c · Terminate</text>
+  <text x="590" y="413" text-anchor="middle" font-size="11" fill="#323130" font-weight="600">No Action</text>
+  <text x="590" y="430" text-anchor="middle" font-size="9.5" fill="#605e5c">Aucun véhicule en alerte</text>
+
+  <!-- Legend -->
+  <rect x="260" y="500" width="200" height="58" rx="4" fill="white" stroke="#e1dfdd" stroke-width="1"/>
+  <text x="360" y="518" text-anchor="middle" font-size="9" fill="#605e5c" font-weight="700" letter-spacing="1">SEUILS CONFIGURÉS</text>
+  <circle cx="278" cy="531" r="4" fill="#d29200"/>
+  <text x="286" y="534" font-size="9" fill="#605e5c">Attention : 12 000 km</text>
+  <circle cx="278" cy="545" r="4" fill="#a4262c"/>
+  <text x="286" y="548" font-size="9" fill="#605e5c">Alerte : 15 000 km</text>
+
+</svg>

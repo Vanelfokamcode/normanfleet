@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: stg_vehicules
+    columns:
+      - name: vehicule_id
+        tests: [unique, not_null]
+      - name: immatriculation
+        tests: [unique, not_null]
+      - name: motorisation
+        tests:
+          - accepted_values:
+              values: ['diesel', 'electrique']
+
+  - name: stg_interventions
+    columns:
+      - name: intervention_id
+        tests: [unique, not_null]
+      - name: vehicule_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_vehicules')
+              field: vehicule_id
+      - name: type_intervention
+        tests:
+          - accepted_values:
+              values: ['preventif', 'curatif']
+
+  - name: stg_telemetrie
+    columns:
+      - name: telemetrie_id
+        tests: [unique, not_null]
+      - name: vehicule_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_vehicules')
+              field: vehicule_id

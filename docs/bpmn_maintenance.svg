@@ -1,0 +1,134 @@
+<svg viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI, system-ui, sans-serif">
+
+  <!-- Background -->
+  <rect width="900" height="520" fill="#f8f9fa" rx="8"/>
+  <text x="450" y="28" text-anchor="middle" font-size="13" font-weight="700" fill="#323130" letter-spacing="0.5">NormanFleet — BPMN · Gestion d'incident maintenance de bout en bout</text>
+
+  <!-- SWIMLANE HEADERS -->
+  <rect x="10" y="40" width="100" height="140" rx="4" fill="#0078d4" opacity="0.9"/>
+  <text transform="rotate(-90,60,110)" x="0" y="0" text-anchor="middle" font-size="11" font-weight="700" fill="white" letter-spacing="1">CHAUFFEUR</text>
+
+  <rect x="10" y="185" width="100" height="160" rx="4" fill="#106ebe" opacity="0.9"/>
+  <text transform="rotate(-90,60,265)" x="0" y="0" text-anchor="middle" font-size="11" font-weight="700" fill="white" letter-spacing="1">SYSTÈME</text>
+
+  <rect x="10" y="350" width="100" height="155" rx="4" fill="#005a9e" opacity="0.9"/>
+  <text transform="rotate(-90,60,427)" x="0" y="0" text-anchor="middle" font-size="11" font-weight="700" fill="white" letter-spacing="1">TECHNICIEN</text>
+
+  <!-- SWIMLANE BACKGROUNDS -->
+  <rect x="110" y="40" width="778" height="140" fill="white" stroke="#e1dfdd" stroke-width="1"/>
+  <rect x="110" y="180" width="778" height="165" fill="#faf9f8" stroke="#e1dfdd" stroke-width="1"/>
+  <rect x="110" y="345" width="778" height="160" fill="white" stroke="#e1dfdd" stroke-width="1"/>
+
+  <!-- ═══ CHAUFFEUR LANE ═══ -->
+
+  <!-- START EVENT -->
+  <circle cx="155" cy="110" r="18" fill="#dff6dd" stroke="#107c10" stroke-width="2"/>
+  <text x="155" y="114" text-anchor="middle" font-size="14">⚡</text>
+  <text x="155" y="140" text-anchor="middle" font-size="9" fill="#605e5c">Anomalie</text>
+  <text x="155" y="151" text-anchor="middle" font-size="9" fill="#605e5c">détectée</text>
+
+  <!-- Arrow -->
+  <line x1="173" y1="110" x2="210" y2="110" stroke="#8a8886" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- TASK 1 -->
+  <rect x="210" y="82" width="120" height="56" rx="6" fill="white" stroke="#0078d4" stroke-width="1.5"/>
+  <text x="270" y="104" text-anchor="middle" font-size="10" fill="#0078d4" font-weight="700">SAISIE</text>
+  <text x="270" y="119" text-anchor="middle" font-size="11" fill="#323130" font-weight="600">Power App</text>
+  <text x="270" y="132" text-anchor="middle" font-size="9.5" fill="#605e5c">Immat · Type · KM</text>
+
+  <!-- Arrow down to system -->
+  <line x1="270" y1="138" x2="270" y2="198" stroke="#8a8886" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+  <text x="278" y="172" font-size="9" fill="#605e5c">submit</text>
+
+  <!-- ═══ SYSTÈME LANE ═══ -->
+
+  <!-- TASK 2 -->
+  <rect x="210" y="198" width="120" height="56" rx="6" fill="#faf9f8" stroke="#0078d4" stroke-width="1.5"/>
+  <text x="270" y="220" text-anchor="middle" font-size="10" fill="#0078d4" font-weight="700">AUTOMATE</text>
+  <text x="270" y="235" text-anchor="middle" font-size="11" fill="#323130" font-weight="600">Flow déclenché</text>
+  <text x="270" y="248" text-anchor="middle" font-size="9.5" fill="#605e5c">Alerte email envoyé</text>
+
+  <!-- Arrow right -->
+  <line x1="330" y1="226" x2="375" y2="226" stroke="#8a8886" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- TASK 3 -->
+  <rect x="375" y="198" width="120" height="56" rx="6" fill="#faf9f8" stroke="#0078d4" stroke-width="1.5"/>
+  <text x="435" y="220" text-anchor="middle" font-size="10" fill="#0078d4" font-weight="700">ENREGISTREMENT</text>
+  <text x="435" y="235" text-anchor="middle" font-size="11" fill="#323130" font-weight="600">fact_interventions</text>
+  <text x="435" y="248" text-anchor="middle" font-size="9.5" fill="#605e5c">Incident créé · statut: ouvert</text>
+
+  <!-- Arrow right -->
+  <line x1="495" y1="226" x2="540" y2="226" stroke="#8a8886" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- TASK 4 -->
+  <rect x="540" y="198" width="120" height="56" rx="6" fill="#faf9f8" stroke="#0078d4" stroke-width="1.5"/>
+  <text x="600" y="220" text-anchor="middle" font-size="10" fill="#0078d4" font-weight="700">DASHBOARD</text>
+  <text x="600" y="235" text-anchor="middle" font-size="11" fill="#323130" font-weight="600">Power BI actualisé</text>
+  <text x="600" y="248" text-anchor="middle" font-size="9.5" fill="#605e5c">KPIs mis à jour</text>
+
+  <!-- Arrow down to technicien -->
+  <line x1="435" y1="254" x2="435" y2="363" stroke="#8a8886" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+  <text x="443" y="312" font-size="9" fill="#605e5c">assignation</text>
+
+  <!-- ═══ TECHNICIEN LANE ═══ -->
+
+  <!-- TASK 5 -->
+  <rect x="375" y="363" width="120" height="56" rx="6" fill="white" stroke="#005a9e" stroke-width="1.5"/>
+  <text x="435" y="385" text-anchor="middle" font-size="10" fill="#005a9e" font-weight="700">PLANIFICATION</text>
+  <text x="435" y="400" text-anchor="middle" font-size="11" fill="#323130" font-weight="600">Intervention planifiée</text>
+  <text x="435" y="413" text-anchor="middle" font-size="9.5" fill="#605e5c">Date · Technicien assigné</text>
+
+  <!-- Arrow right -->
+  <line x1="495" y1="391" x2="540" y2="391" stroke="#8a8886" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- TASK 6 -->
+  <rect x="540" y="363" width="120" height="56" rx="6" fill="white" stroke="#005a9e" stroke-width="1.5"/>
+  <text x="600" y="385" text-anchor="middle" font-size="10" fill="#005a9e" font-weight="700">INTERVENTION</text>
+  <text x="600" y="400" text-anchor="middle" font-size="11" fill="#323130" font-weight="600">Travaux réalisés</text>
+  <text x="600" y="413" text-anchor="middle" font-size="9.5" fill="#605e5c">Durée · Coût · KM compteur</text>
+
+  <!-- Arrow right -->
+  <line x1="660" y1="391" x2="705" y2="391" stroke="#8a8886" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <!-- TASK 7 -->
+  <rect x="705" y="363" width="120" height="56" rx="6" fill="white" stroke="#005a9e" stroke-width="1.5"/>
+  <text x="765" y="385" text-anchor="middle" font-size="10" fill="#005a9e" font-weight="700">CLÔTURE</text>
+  <text x="765" y="400" text-anchor="middle" font-size="11" fill="#323130" font-weight="600">Saisie Power App</text>
+  <text x="765" y="413" text-anchor="middle" font-size="9.5" fill="#605e5c">Statut: clôturé</text>
+
+  <!-- Arrow up to system -->
+  <line x1="765" y1="363" x2="765" y2="254" stroke="#8a8886" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+
+  <!-- END EVENT -->
+  <circle cx="840" cy="391" r="18" fill="#fde7e9" stroke="#a4262c" stroke-width="3"/>
+  <circle cx="840" cy="391" r="12" fill="#a4262c"/>
+  <line x1="825" y1="391" x2="705" y2="391" stroke="none"/>
+  <line x1="823" y1="391" x2="858" y2="391" stroke="none"/>
+  <text x="840" y="421" text-anchor="middle" font-size="9" fill="#605e5c">Incident</text>
+  <text x="840" y="432" text-anchor="middle" font-size="9" fill="#605e5c">clôturé</text>
+
+  <!-- Arrow to end -->
+  <line x1="825" y1="391" x2="858" y2="391" stroke="#8a8886" stroke-width="1.5" marker-end="url(#arr)"/>
+  <!-- fix end event connection -->
+  <line x1="825" y1="391" x2="821" y2="391" stroke="#8a8886" stroke-width="1.5"/>
+
+  <!-- ARROW MARKER -->
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#8a8886"/>
+    </marker>
+  </defs>
+
+  <!-- LEGEND -->
+  <rect x="115" y="455" width="420" height="50" rx="4" fill="white" stroke="#e1dfdd" stroke-width="1"/>
+  <text x="325" y="472" text-anchor="middle" font-size="9" font-weight="700" fill="#605e5c" letter-spacing="1">LÉGENDE</text>
+  <circle cx="135" cy="485" r="8" fill="#dff6dd" stroke="#107c10" stroke-width="1.5"/>
+  <text x="148" y="489" font-size="9" fill="#605e5c">Événement début</text>
+  <rect x="200" y="477" width="30" height="16" rx="3" fill="white" stroke="#0078d4" stroke-width="1.5"/>
+  <text x="236" y="489" font-size="9" fill="#605e5c">Tâche système</text>
+  <rect x="290" y="477" width="30" height="16" rx="3" fill="white" stroke="#005a9e" stroke-width="1.5"/>
+  <text x="326" y="489" font-size="9" fill="#605e5c">Tâche technicien</text>
+  <circle cx="400" cy="485" r="8" fill="#fde7e9" stroke="#a4262c" stroke-width="2.5"/>
+  <circle cx="400" cy="485" r="5" fill="#a4262c"/>
+  <text x="414" y="489" font-size="9" fill="#605e5c">Événement fin</text>
+</svg>
