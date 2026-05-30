@@ -3,7 +3,6 @@
   <rect width="820" height="480" fill="#f8f9fa" rx="8"/>
   <text x="410" y="28" text-anchor="middle" font-size="13" font-weight="700" fill="#323130" letter-spacing="0.5">NormanFleet — UML · Diagramme de classes</text>
 
-  <!-- ── VEHICULE ── -->
   <rect x="290" y="50" width="220" height="180" rx="4" fill="white" stroke="#0078d4" stroke-width="2"/>
   <rect x="290" y="50" width="220" height="32" rx="4" fill="#0078d4"/>
   <text x="400" y="71" text-anchor="middle" font-size="13" font-weight="700" fill="white">Vehicule</text>
@@ -18,7 +17,6 @@
   <text x="305" y="203" font-size="11" fill="#323130">+ km_total_depart : INT</text>
   <line x1="290" y1="210" x2="510" y2="210" stroke="#e1dfdd" stroke-width="1"/>
 
-  <!-- ── CHAUFFEUR ── -->
   <rect x="30" y="50" width="200" height="156" rx="4" fill="white" stroke="#106ebe" stroke-width="2"/>
   <rect x="30" y="50" width="200" height="32" rx="4" fill="#106ebe"/>
   <text x="130" y="71" text-anchor="middle" font-size="13" font-weight="700" fill="white">Chauffeur</text>
@@ -31,13 +29,12 @@
   <text x="45" y="173" font-size="11" fill="#323130">+ site : STRING</text>
   <line x1="30" y1="178" x2="230" y2="178" stroke="#e1dfdd" stroke-width="1"/>
 
-  <!-- ── TELEMETRIE ── -->
   <rect x="30" y="290" width="220" height="172" rx="4" fill="white" stroke="#005a9e" stroke-width="2"/>
   <rect x="30" y="290" width="220" height="32" rx="4" fill="#005a9e"/>
   <text x="140" y="311" text-anchor="middle" font-size="13" font-weight="700" fill="white">Telemetrie</text>
   <line x1="30" y1="322" x2="250" y2="322" stroke="#005a9e" stroke-width="1"/>
   <text x="45" y="338" font-size="11" fill="#323130">+ telemetrie_id : STRING [PK]</text>
-  <text x="45" y="353" font-size="11" fill="#323130">+ vehicule_id : STRING [FK]</text>
+  <text x="45" y="353" font-size="11" fill="#323130">+ vehicule_id : STRING [FK] refs Vehicule</text>
   <text x="45" y="368" font-size="11" fill="#323130">+ date_jour : DATE</text>
   <text x="45" y="383" font-size="11" fill="#323130">+ km_jour : INT</text>
   <text x="45" y="398" font-size="11" fill="#323130">+ km_cumul : INT</text>
@@ -46,13 +43,12 @@
   <text x="45" y="443" font-size="11" fill="#323130">+ est_actif : BOOLEAN</text>
   <line x1="30" y1="450" x2="250" y2="450" stroke="#e1dfdd" stroke-width="1"/>
 
-  <!-- ── INTERVENTION ── -->
   <rect x="560" y="290" width="230" height="188" rx="4" fill="white" stroke="#a4262c" stroke-width="2"/>
   <rect x="560" y="290" width="230" height="32" rx="4" fill="#a4262c"/>
   <text x="675" y="311" text-anchor="middle" font-size="13" font-weight="700" fill="white">Intervention</text>
   <line x1="560" y1="322" x2="790" y2="322" stroke="#a4262c" stroke-width="1"/>
   <text x="575" y="338" font-size="11" fill="#323130">+ intervention_id : STRING [PK]</text>
-  <text x="575" y="353" font-size="11" fill="#323130">+ vehicule_id : STRING [FK]</text>
+  <text x="575" y="353" font-size="11" fill="#323130">+ vehicule_id : STRING [FK] refs Vehicule</text>
   <text x="575" y="368" font-size="11" fill="#323130">+ date_intervention : DATE</text>
   <text x="575" y="383" font-size="11" fill="#323130">+ type_intervention : ENUM</text>
   <text x="575" y="398" font-size="11" fill="#323130">+ libelle : STRING</text>
@@ -62,29 +58,28 @@
   <text x="575" y="458" font-size="11" fill="#323130">+ km_compteur : INT</text>
   <line x1="560" y1="463" x2="790" y2="463" stroke="#e1dfdd" stroke-width="1"/>
 
-  <!-- RELATIONS -->
-  <!-- Vehicule 1 -- N Telemetrie -->
-  <line x1="140" y1="290" x2="340" y2="230" stroke="#8a8886" stroke-width="1.5" stroke-dasharray="5,3"/>
-  <text x="180" y="268" font-size="10" fill="#0078d4" font-weight="700">1</text>
-  <text x="320" y="242" font-size="10" fill="#0078d4" font-weight="700">N</text>
-  <text x="195" y="255" font-size="9" fill="#605e5c">conduit</text>
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#8a8886"/>
+    </marker>
+  </defs>
 
-  <!-- Vehicule 1 -- N Intervention -->
-  <line x1="510" y1="200" x2="675" y2="290" stroke="#8a8886" stroke-width="1.5" stroke-dasharray="5,3"/>
-  <text x="525" y="218" font-size="10" fill="#0078d4" font-weight="700">1</text>
-  <text x="655" y="282" font-size="10" fill="#0078d4" font-weight="700">N</text>
-  <text x="565" y="255" font-size="9" fill="#605e5c">subit</text>
+  <line x1="140" y1="290" x2="340" y2="230" stroke="#8a8886" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+  <text x="175" y="268" font-size="10" fill="#0078d4" font-weight="700">1</text>
+  <text x="318" y="242" font-size="10" fill="#0078d4" font-weight="700">N</text>
+  <text x="200" y="252" font-size="9" fill="#605e5c">1..N</text>
 
-  <!-- Chauffeur 1 -- N Telemetrie -->
-  <line x1="130" y1="206" x2="130" y2="290" stroke="#8a8886" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="510" y1="200" x2="675" y2="290" stroke="#8a8886" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+  <text x="518" y="218" font-size="10" fill="#0078d4" font-weight="700">1</text>
+  <text x="652" y="282" font-size="10" fill="#0078d4" font-weight="700">N</text>
+  <text x="560" y="252" font-size="9" fill="#605e5c">1..N</text>
+
+  <line x1="130" y1="206" x2="130" y2="290" stroke="#8a8886" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr)"/>
   <text x="115" y="222" font-size="10" fill="#106ebe" font-weight="700">1</text>
   <text x="115" y="284" font-size="10" fill="#106ebe" font-weight="700">N</text>
-  <text x="136" y="252" font-size="9" fill="#605e5c">génère</text>
 
-  <!-- Vehicule -- Chauffeur -->
-  <line x1="290" y1="128" x2="230" y2="128" stroke="#8a8886" stroke-width="1.5" stroke-dasharray="5,3"/>
-  <text x="274" y="122" font-size="10" fill="#323130" font-weight="700">N</text>
+  <line x1="290" y1="128" x2="230" y2="128" stroke="#8a8886" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arr)"/>
+  <text x="272" y="122" font-size="10" fill="#323130" font-weight="700">N</text>
   <text x="234" y="122" font-size="10" fill="#323130" font-weight="700">M</text>
-  <text x="244" y="142" font-size="9" fill="#605e5c">affecté à</text>
 
 </svg>
