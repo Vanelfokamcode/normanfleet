@@ -185,6 +185,5 @@ normanfleet/
 
 ## Auteur
 
-**Vanel Fokam** — Licence Maths-Info · Université de Caen Normandie
-Intégration ISEN Caen · Cycle Ingénieur Informatique & Data · Septembre 2026
+**Vanel Fokam**
 GitHub : [Vanelfokamcode](https://github.com/Vanelfokamcode)
