@@ -10,6 +10,7 @@
 Une entreprise normande de transport industriel opère une flotte de **45 poids lourds** (Volvo, Renault Trucks, Mercedes, MAN, DAF) répartis sur 5 sites : Blainville-sur-Orne, Caen, Rouen, Le Havre, Cherbourg.
 
 Le projet digitalise trois processus critiques :
+
 - **Suivi maintenance** : historique interventions, alertes dépassement de seuil km
 - **Pilotage opérationnel** : taux de disponibilité, consommation, KPIs flotte
 - **Saisie terrain** : remontée d'incidents chauffeur via application mobile
@@ -17,35 +18,36 @@ Le projet digitalise trois processus critiques :
 ---
 
 ## Architecture
+
+```
 [Sources]
 SDES immatriculations PL France (référentiel marques réel)
-
 données opérationnelles synthétiques (distributions Weibull/normale)
-|
-v
+        |
+        v
 [Ingestion — Python]
 pipeline/generate_data.py
 → data/raw/  (4 CSV : dim_vehicules, dim_chauffeurs, fact_telemetrie, fact_interventions)
-|
-v
+        |
+        v
 [Transformation — dbt + DuckDB]
 staging/  : cast types, renommage, colonnes calculées
 marts/    : agrégats métier (fleet_summary, maintenance_kpis, consommation_kpis)
 → data/processed/  (6 CSV exports)
-|
-v
+        |
+        v
 [Visualisation — Power BI Desktop]
 3 pages : Vue Flotte · Maintenance · Consommation
 Modèle étoile · DAX · Formatage conditionnel
-|
-v
+        |
+        v
 [Terrain — Power Apps mockup]
 Saisie incident chauffeur — Fluent Design mobile-first
-|
-v
+        |
+        v
 [Automatisation — Power Automate]
 Flow quotidien 06h00 : alerte email si km_since_maintenance > 15 000
-
+```
 
 ---
 
@@ -65,6 +67,8 @@ Flow quotidien 06h00 : alerte email si km_since_maintenance > 15 000
 ## Modèle de données
 
 Schéma en étoile — 4 tables :
+
+```
 dim_vehicules (45)          dim_chauffeurs (20)
 vehicule_id [PK]            chauffeur_id [PK]
 immatriculation             nom, prenom
@@ -73,9 +77,9 @@ motorisation (ENUM)         anciennete_ans
 annee_mise_service          site
 site_affectation
 km_total_depart
-|                            |
-| 1..N                       | 1..N
-v                            v
+        |                            |
+        | 1..N                       | 1..N
+        v                            v
 fact_telemetrie (27 168)    fact_interventions (659)
 telemetrie_id [PK]          intervention_id [PK]
 vehicule_id [FK]            vehicule_id [FK]
@@ -84,6 +88,7 @@ km_jour, km_cumul           type_intervention (ENUM)
 consommation_l100           libelle, technicien
 statut, est_actif           duree_heures, cout_eur
 km_compteur
+```
 
 ---
 
@@ -108,13 +113,16 @@ km_compteur
 ## Processus modélisé — BPMN
 
 Gestion d'incident maintenance de bout en bout — 3 acteurs, 7 étapes :
-[Chauffeur]    Anomalie détectée → Saisie Power App (immat · type · km)
-|
-[Système]      Flow Automate déclenché → fact_interventions créée → Power BI actualisé
-|
-[Technicien]   Intervention planifiée → Travaux réalisés → Clôture Power App
 
-Diagramme complet : `docs/bpmn_maintenance.svg`
+```
+[Chauffeur]    Anomalie détectée → Saisie Power App (immat · type · km)
+                        |
+[Système]      Flow Automate déclenché → fact_interventions créée → Power BI actualisé
+                        |
+[Technicien]   Intervention planifiée → Travaux réalisés → Clôture Power App
+```
+
+Diagramme complet : `docs/bpmn_maintenance.svg`  
 Diagramme de classes UML : `docs/uml_classes.svg`
 
 ---
@@ -133,6 +141,7 @@ cd dbt_normanfleet && NORMANFLEET_RAW=/home/vanel/normanfleet/data/raw dbt run
 ```
 
 Tests qualité :
+
 ```bash
 dbt test
 ```
@@ -159,6 +168,8 @@ dbt test
 ---
 
 ## Structure du repo
+
+```
 normanfleet/
 ├── data/
 │   ├── raw/                  # CSV sources générées
@@ -180,10 +191,11 @@ normanfleet/
 │   ├── power_automate_flow.svg
 │   └── screenshots/
 └── README.md
+```
 
 ---
 
 ## Auteur
 
-**Vanel Fokam**
+**Vanel Fokam**  
 GitHub : [Vanelfokamcode](https://github.com/Vanelfokamcode)
